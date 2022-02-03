@@ -14,17 +14,14 @@ public class Car {
 
     }
 
-    public String toStringRent(){
+    public String toString(){
 
-        return "Thank you, you are now returning the " +
-                make + " " + model + ".\n" +
-                "Enjoy the Oasis autobahn.";
+        return  "Car{" +
+                "make=\"" + make + "\"" +
+                ", model=\"" + model + "\"" +
+                ", isRented=" + isRented +
+                "}";
     }
 
-    public String toStringReturn(){
 
-        return "Thank you, you have returned the " +
-                make + " " + model + ".\n" +
-                "Be sure to stop by the souvenir shop on the way out.";
-    }
 }
