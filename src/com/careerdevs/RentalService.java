@@ -17,33 +17,40 @@ public class RentalService {
 
         createCarInventory();
         rentalMenu();
+
     }
 
     private static void rentalMenu() {
 
+        ArrayList<Car> availableCars = new ArrayList<>();
+        for(int currentCarIndex = 0; currentCarIndex <= lastIndexOf(carInventory); currentCarIndex++) {
+
+            if (!carInventory.get(currentCarIndex).isRented() ){
+
+                availableCars.add(carInventory.get(currentCarIndex));
+            }
+        }
+
         System.out.println("\nAvailable Cars: \n");
 
-        int listNumber = 1;
-        int lastIndex = carInventory.size() - 1;
+        int listDisplayNumber = 1;
 
-        for (int currentIndex = 0; currentIndex <= lastIndex; currentIndex++) {
+        for (int currentCarIndex = 0; currentCarIndex <= lastIndexOf(availableCars); currentCarIndex++) {
 
-            if (!carInventory.get(currentIndex).isRented()) {
+            System.out.println(listDisplayNumber + ") " + availableCars.get(currentCarIndex).getName());
 
-                System.out.println(listNumber + ") " + carInventory.get(currentIndex).getName());
-
-            }
-
-            if (currentIndex == lastIndex){
-
+            if (currentCarIndex == lastIndexOf(availableCars)){
                 break;
             }
 
-            listNumber++;
+            listDisplayNumber++;
         }
 
-        int userSelection = UI.readInt("Which vehicle you'd like to tour our facilities in? ", 1, listNumber);
-        System.out.println(carInventory.get(userSelection-1).getName());
+        int userSelection = UI.readInt("Which vehicle you'd like to tour our facilities in? ", 1, listDisplayNumber);
+        int userSelectionIndex = userSelection - 1;
+
+        carInventory.get(userSelectionIndex).setRented(true);
+        System.out.println(availableCars.get(userSelectionIndex).getName());
     }
 
     private static void createCarInventory() {
@@ -57,6 +64,12 @@ public class RentalService {
 
         carInventory.addAll(List.of(new Car[]{darkKnight, nightRyder, pixar, bueller}));
 
+
+    }
+
+     private static int lastIndexOf(ArrayList<Car> arrayList){
+
+        return arrayList.size() - 1;
 
     }
 
