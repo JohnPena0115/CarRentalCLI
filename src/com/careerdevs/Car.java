@@ -4,13 +4,13 @@ public class Car {
 
     private String make;
     private String model;
-    private boolean isRented;
+    private boolean isAvailable;
 
     Car (String make, String model){
 
         this.make = make;
         this.model = model;
-        this.isRented = false;
+        this.isAvailable = true;
 
     }
 
@@ -29,14 +29,14 @@ public class Car {
         return make + " " + model;
     }
 
-    public boolean isRented() {
+    public boolean isAvailable() {
 
-        return isRented;
+        return isAvailable;
     }
 
-    public void setRented(boolean rented) {
+    public void setAvailability(boolean available) {
 
-        isRented = rented;
+        isAvailable = available;
     }
 
 
@@ -45,7 +45,7 @@ public class Car {
         return  "Car{" +
                 "make=\"" + make + "\"" +
                 ", model=\"" + model + "\"" +
-                ", isRented=" + isRented +
+                ", isAvailable=" + isAvailable +
                 "}";
     }
 

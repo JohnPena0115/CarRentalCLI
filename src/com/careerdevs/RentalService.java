@@ -12,24 +12,58 @@ public class RentalService {
 //        System.out.println("");
 //        System.out.println("Welcome to the Charlie Chocolate Factory Rent-a-Car.\n");
 
-//        int testInt = UI.readInt("Enter a number: ", 1, 10);
-//        System.out.println(testInt);
-
         createCarInventory();
-        rentalMenu();
+
+       while(true) {
+
+           rentalMenu();
+
+           boolean someAvailable = false;
+
+           for (int i = 0; i <= lastIndexOf(carInventory); i++) {
+
+               if (carInventory.get(i).isAvailable()) {
+
+                   someAvailable = true;
+
+
+               }
+           }
+
+           if (someAvailable == false) {
+
+               System.out.println("\nOur apologies. There are no more cars to rent.");
+               break;
+           }
+
+
+       }
 
     }
 
-    private static void rentalMenu() {
+    private static ArrayList<Car> getAvailableCars() {
 
         ArrayList<Car> availableCars = new ArrayList<>();
         for(int currentCarIndex = 0; currentCarIndex <= lastIndexOf(carInventory); currentCarIndex++) {
 
-            if (!carInventory.get(currentCarIndex).isRented() ){
+            if (carInventory.get(currentCarIndex).isAvailable() ){
 
                 availableCars.add(carInventory.get(currentCarIndex));
             }
         }
+
+        return availableCars;
+    }
+
+    private static void rentalMenu() {
+
+        ArrayList<Car> availableCars = getAvailableCars();
+
+//        if (lastIndexOf(getAvailableCars()) < 0) {
+//
+//            System.out.println("Our apologies. There are no more cars to rent.");
+//            System.exit(0);
+//        }
 
         System.out.println("\nAvailable Cars: \n");
 
@@ -49,7 +83,7 @@ public class RentalService {
         int userSelection = UI.readInt("Which vehicle you'd like to tour our facilities in? ", 1, listDisplayNumber);
         int userSelectionIndex = userSelection - 1;
 
-        carInventory.get(userSelectionIndex).setRented(true);
+        availableCars.get(userSelectionIndex).setAvailability(false);
         System.out.println(availableCars.get(userSelectionIndex).getName());
     }
 
@@ -72,5 +106,4 @@ public class RentalService {
         return arrayList.size() - 1;
 
     }
-
 }
