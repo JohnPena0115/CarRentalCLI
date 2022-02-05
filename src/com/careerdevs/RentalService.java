@@ -16,29 +16,13 @@ public class RentalService {
 
        while(true) {
 
-           rentalMenu();
-
-           boolean someAvailable = false;
-
-           for (int i = 0; i <= lastIndexOf(carInventory); i++) {
-
-               if (carInventory.get(i).isAvailable()) {
-
-                   someAvailable = true;
-
-
-               }
-           }
-
-           if (someAvailable == false) {
-
-               System.out.println("\nOur apologies. There are no more cars to rent.");
+           if (!inventoryAvailable()) {
+               System.out.println("\nOur apologies. We currently have no more cars available.");
                break;
            }
 
-
+           rentalMenu();
        }
-
     }
 
     private static ArrayList<Car> getAvailableCars() {
@@ -59,12 +43,6 @@ public class RentalService {
 
         ArrayList<Car> availableCars = getAvailableCars();
 
-//        if (lastIndexOf(getAvailableCars()) < 0) {
-//
-//            System.out.println("Our apologies. There are no more cars to rent.");
-//            System.exit(0);
-//        }
-
         System.out.println("\nAvailable Cars: \n");
 
         int listDisplayNumber = 1;
@@ -84,7 +62,7 @@ public class RentalService {
         int userSelectionIndex = userSelection - 1;
 
         availableCars.get(userSelectionIndex).setAvailability(false);
-        System.out.println(availableCars.get(userSelectionIndex).getName());
+        System.out.println("Congratulations, you have successfully rented a " + availableCars.get(userSelectionIndex).getName() + ".");
     }
 
     private static void createCarInventory() {
@@ -105,5 +83,21 @@ public class RentalService {
 
         return arrayList.size() - 1;
 
+    }
+
+    private static boolean inventoryAvailable() {
+
+        boolean someAvailable = false;
+
+        for (int currentCarIndex = 0; currentCarIndex <= lastIndexOf(carInventory); currentCarIndex++) {
+
+            if (carInventory.get(currentCarIndex).isAvailable()) {
+
+                someAvailable = true;
+                break;
+            }
+        }
+
+        return someAvailable;
     }
 }
