@@ -10,7 +10,7 @@ public class UI {
     public static int readInt (String question, int min, int max) {
 
         System.out.print('\n' + question);
-        System.out.print("(" + min + " - " + max + "): ");
+        System.out.print("\nSelection: (" + min + " - " + max + "): ");
 
         while(true){
 

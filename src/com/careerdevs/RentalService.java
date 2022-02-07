@@ -14,15 +14,14 @@ public class RentalService {
 
         createCarInventory();
 
-       while(true) {
+        System.out.println("\nWelcome to Java Car Rentals!");
 
-           if (!inventoryAvailable()) {
-               System.out.println("\nOur apologies. We currently have no more cars available.");
-               break;
-           }
+        mainMenu();
 
-           rentalMenu();
-       }
+
+
+
+
     }
 
     private static ArrayList<Car> getAvailableCars() {
@@ -39,7 +38,95 @@ public class RentalService {
         return availableCars;
     }
 
+    private static ArrayList<Car> getRentedCars() {
+
+        ArrayList<Car> rentedCars = new ArrayList<>();
+        for(int currentCarIndex = 0; currentCarIndex <= lastIndexOf(carInventory); currentCarIndex++) {
+
+            if (!carInventory.get(currentCarIndex).isAvailable()){
+
+                rentedCars.add(carInventory.get(currentCarIndex));
+            }
+        }
+
+        return rentedCars;
+    }
+
+    private static void mainMenu() {
+
+        System.out.println("\nMain Menu");
+        System.out.println("----------");
+
+        int userSelection = UI.readInt("Would you like to ...\n" +
+                "1) Rent\n" +
+                "2) Return\n" +
+                "3) Exit the program\n", 1, 3 );
+
+        switch(userSelection) {
+
+            case 1:
+                rentalMenu();
+                break;
+
+            case 2:
+                returnMenu();
+                break;
+
+            case 3:
+                System.exit(0);
+
+        }
+    }
+
+    private static void returnMenu() {
+
+        if (!currentRentalsOut()) {
+
+            System.out.println("\nWe currently have no active rentals in our inventory." +
+                    "\nBrining you back to the main menu ...");
+
+            mainMenu();
+        }
+
+        ArrayList<Car> rentedCars = getRentedCars();
+
+        System.out.println("\nRented Cars: \n");
+
+        int listDisplayNumber = 1;
+
+        for (int currentCarIndex = 0; currentCarIndex <= lastIndexOf(rentedCars); currentCarIndex++) {
+
+            System.out.println(listDisplayNumber + ") " + rentedCars.get(currentCarIndex).getName());
+
+            if (currentCarIndex == lastIndexOf(rentedCars)){
+                break;
+            }
+
+            listDisplayNumber++;
+        }
+
+        int userSelection = UI.readInt("\nWhich vehicle would you like to return?", 1, listDisplayNumber);
+        int userSelectionIndex = userSelection - 1;
+
+        rentedCars.get(userSelectionIndex).setAvailability(true);
+        System.out.println("\nCongratulations, you have successfully returned the " + rentedCars.get(userSelectionIndex).getName() + "." +
+                "\nBringing you back to the main menu ... ");
+
+        mainMenu();
+    }
+
+
+
     private static void rentalMenu() {
+
+        System.out.println("\nRental Menu");
+        System.out.println("-----------");
+
+        if (!inventoryAvailable()) {
+            System.out.println("\nOur apologies. We currently have no more cars available." +
+                    "\nBringing you back to the main menu ... ");
+            mainMenu();
+        }
 
         ArrayList<Car> availableCars = getAvailableCars();
 
@@ -58,12 +145,16 @@ public class RentalService {
             listDisplayNumber++;
         }
 
-        int userSelection = UI.readInt("Which vehicle you'd like to tour our facilities in? ", 1, listDisplayNumber);
+        int userSelection = UI.readInt("Which vehicle would you like to tour our facilities in? ", 1, listDisplayNumber);
         int userSelectionIndex = userSelection - 1;
 
         availableCars.get(userSelectionIndex).setAvailability(false);
-        System.out.println("Congratulations, you have successfully rented a " + availableCars.get(userSelectionIndex).getName() + ".");
+        System.out.println("\nCongratulations, you have successfully rented a " + availableCars.get(userSelectionIndex).getName() + "." +
+                "\nBringing you back to the main menu ... ");
+
+        mainMenu();
     }
+
 
     private static void createCarInventory() {
 
@@ -99,5 +190,22 @@ public class RentalService {
         }
 
         return someAvailable;
+    }
+
+    private static boolean currentRentalsOut() {
+
+        boolean returnsExist = false;
+
+        for (int currentCarIndex = 0; currentCarIndex <= lastIndexOf(carInventory); currentCarIndex++) {
+
+            if (!carInventory.get(currentCarIndex).isAvailable()) {
+
+                returnsExist = true;
+                break;
+
+            }
+        }
+
+        return returnsExist;
     }
 }
