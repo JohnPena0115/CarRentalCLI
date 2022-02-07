@@ -79,7 +79,7 @@ public class RentalService {
 
     }
 
-     private static int lastIndexOf(ArrayList<Car> arrayList){
+     private static int lastIndexOf(ArrayList<?> arrayList){
 
         return arrayList.size() - 1;
 
